@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
+        <script src="data/TerritorialSeas12NauticalMiles_1.js"></script>
+        <script src="data/AbandonedSeafarersLastUpdatedSep23_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:25, minZoom:1
+        }).fitBounds([[19.107317108491145,46.789737101906184],[32.36853011198357,63.64107765933763]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_EsriOcean_0');
+        map.getPane('pane_EsriOcean_0').style.zIndex = 400;
+        var layer_EsriOcean_0 = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_EsriOcean_0',
+            opacity: 0.602,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 25,
+            minNativeZoom: 0,
+            maxNativeZoom: 10
+        });
+        layer_EsriOcean_0;
+        map.addLayer(layer_EsriOcean_0);
+        function pop_TerritorialSeas12NauticalMiles_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MRGID'] !== null ? autolinker.link(feature.properties['MRGID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GEONAME'] !== null ? autolinker.link(feature.properties['GEONAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['POL_TYPE'] !== null ? autolinker.link(feature.properties['POL_TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MRGID_TER1'] !== null ? autolinker.link(feature.properties['MRGID_TER1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TERRITORY1'] !== null ? autolinker.link(feature.properties['TERRITORY1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MRGID_SOV1'] !== null ? autolinker.link(feature.properties['MRGID_SOV1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SOVEREIGN1'] !== null ? autolinker.link(feature.properties['SOVEREIGN1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ISO_TER1'] !== null ? autolinker.link(feature.properties['ISO_TER1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['X_1'] !== null ? autolinker.link(feature.properties['X_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Y_1'] !== null ? autolinker.link(feature.properties['Y_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MRGID_EEZ'] !== null ? autolinker.link(feature.properties['MRGID_EEZ'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA_KM2'] !== null ? autolinker.link(feature.properties['AREA_KM2'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ISO_SOV1'] !== null ? autolinker.link(feature.properties['ISO_SOV1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UN_SOV1'] !== null ? autolinker.link(feature.properties['UN_SOV1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UN_TER1'] !== null ? autolinker.link(feature.properties['UN_TER1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_TerritorialSeas12NauticalMiles_1_0() {
+            return {
+                pane: 'pane_TerritorialSeas12NauticalMiles_1',
+                opacity: 1,
+                color: 'rgba(43,43,80,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,53,255,0.1843137254901961)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_TerritorialSeas12NauticalMiles_1');
+        map.getPane('pane_TerritorialSeas12NauticalMiles_1').style.zIndex = 401;
+        map.getPane('pane_TerritorialSeas12NauticalMiles_1').style['mix-blend-mode'] = 'normal';
+        var layer_TerritorialSeas12NauticalMiles_1 = new L.geoJson(json_TerritorialSeas12NauticalMiles_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_TerritorialSeas12NauticalMiles_1',
+            layerName: 'layer_TerritorialSeas12NauticalMiles_1',
+            pane: 'pane_TerritorialSeas12NauticalMiles_1',
+            onEachFeature: pop_TerritorialSeas12NauticalMiles_1,
+            style: style_TerritorialSeas12NauticalMiles_1_0,
+        });
+        bounds_group.addLayer(layer_TerritorialSeas12NauticalMiles_1);
+        map.addLayer(layer_TerritorialSeas12NauticalMiles_1);
+        function pop_AbandonedSeafarersLastUpdatedSep23_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Ship Name (at time of abandonment)</th>\
+                        <td>' + (feature.properties['Ship Name (at time of abandonment)'] !== null ? autolinker.link(feature.properties['Ship Name (at time of abandonment)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Port Name</th>\
+                        <td>' + (feature.properties['Port Name'] !== null ? autolinker.link(feature.properties['Port Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Total Number of Seafarers</th>\
+                        <td>' + (feature.properties['Total Number of Seafarers'] !== null ? autolinker.link(feature.properties['Total Number of Seafarers'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Nationalities</th>\
+                        <td>' + (feature.properties['Nationalities'] !== null ? autolinker.link(feature.properties['Nationalities'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Date Abandoned (DA)</th>\
+                        <td>' + (feature.properties['Date Abandoned (DA)'] !== null ? autolinker.link(feature.properties['Date Abandoned (DA)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Date Reported (DR)</th>\
+                        <td>' + (feature.properties['Date Reported (DR)'] !== null ? autolinker.link(feature.properties['Date Reported (DR)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Number of Days Between Abandonment and Reporting</th>\
+                        <td>' + (feature.properties['Number of Days Between Abandonment and Reporting'] !== null ? autolinker.link(feature.properties['Number of Days Between Abandonment and Reporting'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ship IMO Number</th>\
+                        <td>' + (feature.properties['Ship IMO Number'] !== null ? autolinker.link(feature.properties['Ship IMO Number'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Company at time of abandonment</th>\
+                        <td>' + (feature.properties['Company at time of abandonment'] !== null ? autolinker.link(feature.properties['Company at time of abandonment'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Company country of registration</th>\
+                        <td>' + (feature.properties['Company country of registration'] !== null ? autolinker.link(feature.properties['Company country of registration'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Flag (at time of abandonment)</th>\
+                        <td>' + (feature.properties['Flag (at time of abandonment)'] !== null ? autolinker.link(feature.properties['Flag (at time of abandonment)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ship Type</th>\
+                        <td>' + (feature.properties['Ship Type'] !== null ? autolinker.link(feature.properties['Ship Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Gross Tonnage</th>\
+                        <td>' + (feature.properties['Gross Tonnage'] !== null ? autolinker.link(feature.properties['Gross Tonnage'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Ship Year of Build</th>\
+                        <td>' + (feature.properties['Ship Year of Build'] !== null ? autolinker.link(feature.properties['Ship Year of Build'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Payment</th>\
+                        <td>' + (feature.properties['Payment'] !== null ? autolinker.link(feature.properties['Payment'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Repatriation</th>\
+                        <td>' + (feature.properties['Repatriation'] !== null ? autolinker.link(feature.properties['Repatriation'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ILO Status</th>\
+                        <td>' + (feature.properties['ILO Status'] !== null ? autolinker.link(feature.properties['ILO Status'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Description</th>\
+                        <td>' + (feature.properties['Description'] !== null ? autolinker.link(feature.properties['Description'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Comments</th>\
+                        <td>' + (feature.properties['Comments'] !== null ? autolinker.link(feature.properties['Comments'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Links</th>\
+                        <td>' + (feature.properties['Links'] !== null ? autolinker.link(feature.properties['Links'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">X</th>\
+                        <td>' + (feature.properties['X'] !== null ? autolinker.link(feature.properties['X'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Y</th>\
+                        <td>' + (feature.properties['Y'] !== null ? autolinker.link(feature.properties['Y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_AbandonedSeafarersLastUpdatedSep23_2_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_AbandonedSeafarersLastUpdatedSep23_2rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/resolved-08.svg',
+            iconSize: [95.0, 95.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicon_inactive-09.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-01.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule3_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-04.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule4_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-03.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule5_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-05.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule6_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule8_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/resolved-08.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule9_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicon_inactive-09.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule10_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-01.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule11_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-05.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule12_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-04.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule13_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-03.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+                else if (exp_AbandonedSeafarersLastUpdatedSep23_2rule14_eval_expression(context)) {
+                  return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+                }
+            else {
+                return {
+                pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/periplousicons-06.svg',
+            iconSize: [57.0, 57.0]
+        }),
+                interactive: true,
+            };
+            }
+        }
+        map.createPane('pane_AbandonedSeafarersLastUpdatedSep23_2');
+        map.getPane('pane_AbandonedSeafarersLastUpdatedSep23_2').style.zIndex = 402;
+        map.getPane('pane_AbandonedSeafarersLastUpdatedSep23_2').style['mix-blend-mode'] = 'normal';
+        var layer_AbandonedSeafarersLastUpdatedSep23_2 = new L.geoJson(json_AbandonedSeafarersLastUpdatedSep23_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_AbandonedSeafarersLastUpdatedSep23_2',
+            layerName: 'layer_AbandonedSeafarersLastUpdatedSep23_2',
+            pane: 'pane_AbandonedSeafarersLastUpdatedSep23_2',
+            onEachFeature: pop_AbandonedSeafarersLastUpdatedSep23_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_AbandonedSeafarersLastUpdatedSep23_2_0(feature));
+            },
+        });
+        var cluster_AbandonedSeafarersLastUpdatedSep23_2 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_AbandonedSeafarersLastUpdatedSep23_2.addLayer(layer_AbandonedSeafarersLastUpdatedSep23_2);
+
+        bounds_group.addLayer(layer_AbandonedSeafarersLastUpdatedSep23_2);
+        cluster_AbandonedSeafarersLastUpdatedSep23_2.addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Abandoned Seafarers, Last Updated Sep 23<br /><table><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Resolved0.png" /></td><td>Resolved</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Inactive1.png" /></td><td>Inactive</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_CargoShips2.png" /></td><td>Cargo Ships</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_PassengerShips3.png" /></td><td>Passenger Ships</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_FishingBoat4.png" /></td><td>Fishing Boat</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Tanker5.png" /></td><td>Tanker</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_SupplyTugVessels6.png" /></td><td>Supply & Tug Vessels</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Other7.png" /></td><td>Other</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Resolved8.png" /></td><td>Resolved</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Inactive9.png" /></td><td>Inactive</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_CargoShips10.png" /></td><td>Cargo Ships</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Tanker11.png" /></td><td>Tanker</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_PassengerShips12.png" /></td><td>Passenger Ships</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_FishingBoat13.png" /></td><td>Fishing Boat</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_SupplyTugVessels14.png" /></td><td>Supply & Tug Vessels</td></tr><tr><td style="text-align: center;"><img src="legend/AbandonedSeafarersLastUpdatedSep23_2_Other15.png" /></td><td>Other</td></tr></table>': cluster_AbandonedSeafarersLastUpdatedSep23_2,'<img src="legend/TerritorialSeas12NauticalMiles_1.png" /> Territorial Seas, 12 Nautical Miles': layer_TerritorialSeas12NauticalMiles_1,"Esri Ocean": layer_EsriOcean_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_TerritorialSeas12NauticalMiles_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['SOVEREIGN1'] !== null?String('<div style="color: #2b2b50; font-size: 9pt; font-family: \'Helvetica\', sans-serif;">' + layer.feature.properties['SOVEREIGN1']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_TerritorialSeas12NauticalMiles_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_TerritorialSeas12NauticalMiles_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_TerritorialSeas12NauticalMiles_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_TerritorialSeas12NauticalMiles_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_TerritorialSeas12NauticalMiles_1]);
+        });
+        </script>
+    </body>
+</html>
